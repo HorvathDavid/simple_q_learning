@@ -37,9 +37,7 @@ for (let i = 0; i < numberOfEpisodes; i++) {
 }
 
 function maxQfromPosition (position) {
-
     let maxQValue = 0
-
     for (let action in q_table[position]) {
         if (q_table[position][action] > maxQValue) {
             maxQValue = q_table[position][action]
@@ -50,10 +48,8 @@ function maxQfromPosition (position) {
 }
 
 // console.log(JSON.stringify(q_table, null, 2))
-console.log(countKeysInQTable())
+// console.log(countKeysInQTable())
 
-playRandomGame()
-playRandomGame()
 playRandomGame()
 
 function countKeysInQTable () {

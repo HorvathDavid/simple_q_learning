@@ -36,9 +36,7 @@ module.exports = class Environment {
         }
     }
 
-    // direction should be = []
     _calculateNextState(direction) {
-        // pl [5, 4]
         this.agentPosition = [this.agentPosition[0] + direction[0], this.agentPosition[1] + direction[1]]
         if (this.agentPosition[0] == this.mapSize || this.agentPosition[0] < 0 || this.agentPosition[1] == this.mapSize || this.agentPosition[1] < 0) {
             this.outOfMap = true
@@ -59,16 +57,3 @@ module.exports = class Environment {
         return -1
     }
 }
-
-const map = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
