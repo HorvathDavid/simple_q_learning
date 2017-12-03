@@ -1,0 +1,19 @@
+{
+  "name": "q_learning",
+  "version": "0.0.1",
+  "description": "Simple Q learning miniproject",
+  "main": "Agent.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Horvath",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HorvathDavid/simple_q_learning.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HorvathDavid/simple_q_learning/issues"
+  },
+  "homepage": "https://github.com/HorvathDavid/simple_q_learning#readme"
+}
