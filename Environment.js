@@ -8,11 +8,10 @@ module.exports = class Environment {
             down: [1, 0]
         }
 
-        this.mapSize = 40
+        this.mapSize = 100
         this.agentPosition = null
-        this.targetPosition = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)]
+        this.targetPosition = [Math.floor(Math.random() * this.mapSize), Math.floor(Math.random() * this.mapSize)]
 
-        this._resetAgentPosition()
         this.reset()
         console.log(`The agentPosition: ${this.agentPosition}`)
         console.log(`The targetPosition: ${this.targetPosition}`)

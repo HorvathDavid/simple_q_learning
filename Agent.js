@@ -1,30 +1,36 @@
 var Environment = require('./Environment.js')
 
 const environment = new Environment()
-const numberOfEpisodes = 1000
+const numberOfEpisodes = 3000
 
 const q_table = {}
 
 const GAMMA = 0.8
+const E_BOUNDARY = 1000
+let EPSILON = 0.7
+let stepNumber = 0
+const actions = ['left', 'up', 'right', 'down']
+
+const EPS_STEP = EPSILON / E_BOUNDARY
 
 for (let i = 0; i < numberOfEpisodes; i++) {
 
     environment.reset();
 
     while (!environment.isEpisodeEnd) {
-
-        const actions = ['left', 'up', 'right', 'down']
-        const selectedAction = actions[Math.floor(Math.random() * 4)]
+        EPSILON = (EPSILON - EPS_STEP) > 0.01 ? (EPSILON - EPS_STEP) : 0.01
+        stepNumber++
 
         const currentPositionKey = JSON.stringify(environment.agentPosition)
-
+        
         if (!q_table.hasOwnProperty(currentPositionKey)) {
             q_table[currentPositionKey] = {}
             for (const action of actions) {
                 q_table[currentPositionKey][action] = 0
             }
         }
-
+        
+        const selectedAction = policy()
         // Here comes the agent action in environment
         const [reward, newPosition] = environment.action(selectedAction)
 
@@ -34,6 +40,14 @@ for (let i = 0; i < numberOfEpisodes; i++) {
         // console.log(currentPosition, newPosition)
         // console.log(q_table[currentPositionKey][selectedAction])
     }
+}
+
+function policy () {
+    if (Math.random() < EPSILON) {
+        return actions[Math.floor(Math.random() * 4)]
+    }
+
+    return getMaxValueAction()
 }
 
 function maxQfromPosition (position) {
@@ -48,7 +62,7 @@ function maxQfromPosition (position) {
 }
 
 // console.log(JSON.stringify(q_table, null, 2))
-// console.log(countKeysInQTable())
+console.log(countKeysInQTable())
 
 playRandomGame()
 
@@ -56,24 +70,31 @@ function countKeysInQTable () {
     return Object.keys(q_table).length
 }
 
+function getMaxValueAction () {
+    const currentPositionKey = JSON.stringify(environment.agentPosition)
+    let selectedAction = 'left'
+    let maxList = [selectedAction]
+
+    // What if the position is not initialized
+    for (const action of actions.slice(1)) {
+        if (q_table[currentPositionKey][action] > q_table[currentPositionKey][selectedAction]) {
+            maxList = []
+            maxList.push(action)
+            selectedAction = action
+        } else if (q_table[currentPositionKey][action] == q_table[currentPositionKey][selectedAction]) {
+            maxList.push(action)
+        }
+    }
+
+    return maxList[Math.floor(Math.random() * maxList.length)]
+}
+
 function playRandomGame () {
 
     console.log(`The agentPosition: ${environment.agentPosition}`)
     console.log(`The targetPosition: ${environment.targetPosition}`)
 
-    let getMaxValueAction = function () {
-        const currentPositionKey = JSON.stringify(environment.agentPosition)
-        const actions = ['left', 'up', 'right', 'down']
-        let selectedAction = 'left'
-        // What if the position is not initialized
-        for (const action of actions) {
-            if (q_table[currentPositionKey][action] > q_table[currentPositionKey][selectedAction]) {
-                selectedAction = action
-            }
-        }
-
-        return selectedAction
-    }
+    
 
     environment.reset()
     let stepCounter = 0
